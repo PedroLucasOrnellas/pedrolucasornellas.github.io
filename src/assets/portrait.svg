@@ -1,0 +1,37 @@
+<svg width="720" height="860" viewBox="0 0 720 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="90" y1="70" x2="650" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF3FF"/>
+      <stop offset="1" stop-color="#F8FAFC"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="360" y1="430" x2="360" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1C2330"/>
+      <stop offset="1" stop-color="#080B11"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-20%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+  <rect width="720" height="860" rx="48" fill="url(#bg)"/>
+  <circle cx="572" cy="170" r="116" fill="#E4EBFA"/>
+  <path d="M89 692C164 593 197 505 230 395C271 258 374 190 501 208C603 222 650 295 675 404V860H65C50 803 58 733 89 692Z" fill="#DDE5F1"/>
+  <ellipse cx="370" cy="827" rx="260" ry="33" fill="#AAB6C8" opacity=".25" filter="url(#shadow)"/>
+  <path d="M271 387C294 423 297 467 275 503L243 554L475 556L439 490C426 466 430 430 446 402L271 387Z" fill="#D6B7A4"/>
+  <path d="M251 246C257 161 314 101 399 105C485 108 535 173 523 268L510 355C500 421 455 468 391 472C325 476 276 434 265 368L251 246Z" fill="#D9BAA8"/>
+  <path d="M252 267C221 218 242 125 314 84C381 45 481 72 525 135C553 176 557 226 537 278L508 228C485 205 475 174 468 146C415 183 351 199 286 188L252 267Z" fill="#171B23"/>
+  <path d="M280 202C273 254 275 316 289 368C302 419 343 452 394 449C438 447 471 421 490 381" stroke="#C49C88" stroke-width="5" opacity=".55"/>
+  <path d="M294 290C315 277 338 277 358 288" stroke="#242A34" stroke-width="7" stroke-linecap="round"/>
+  <path d="M415 286C434 274 456 275 474 286" stroke="#242A34" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="329" cy="306" rx="8" ry="9" fill="#171B23"/>
+  <ellipse cx="446" cy="303" rx="8" ry="9" fill="#171B23"/>
+  <path d="M389 301C381 328 377 348 383 360C391 369 402 368 412 362" stroke="#B78F7A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M353 393C378 407 413 406 438 389" stroke="#6D443A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M264 486C319 523 392 532 448 488C532 509 602 564 630 660L682 860H39L90 661C115 565 182 510 264 486Z" fill="url(#shirt)"/>
+  <path d="M264 486C291 541 421 558 448 488" stroke="#303845" stroke-width="7"/>
+  <path d="M111 693C178 663 229 674 277 730" stroke="#2D3541" stroke-width="4" opacity=".6"/>
+  <path d="M608 693C541 663 490 674 442 730" stroke="#2D3541" stroke-width="4" opacity=".6"/>
+  <g opacity=".45" fill="#2F6BFF">
+    <circle cx="103" cy="112" r="5"/><circle cx="142" cy="112" r="2"/><circle cx="103" cy="151" r="2"/>
+    <circle cx="615" cy="424" r="4"/><circle cx="650" cy="424" r="2"/><circle cx="615" cy="459" r="2"/>
+  </g>
+</svg>
