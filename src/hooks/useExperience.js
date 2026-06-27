@@ -52,11 +52,13 @@ export function useExperience(enabled = true, animateHero = true) {
           .set(heroElements, {
             autoAlpha: 0,
             y: 84,
+            scale: 1,
             filter: 'blur(6px)',
           }, 0)
           .to(heroElements, {
             autoAlpha: 1,
             y: 0,
+            scale: 1,
             filter: 'blur(0px)',
             duration: 1,
             stagger: 0.1,

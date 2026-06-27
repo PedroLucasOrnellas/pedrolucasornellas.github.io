@@ -1439,7 +1439,7 @@
     padding: 12px;
   }
   .learningPreview {
-    min-height: 340px;
+    min-height: unset;
     padding: 0;
   }
   .learningPreview img {

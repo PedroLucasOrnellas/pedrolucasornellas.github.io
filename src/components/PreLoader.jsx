@@ -101,7 +101,6 @@ export function PreLoader({ onReady, onComplete }) {
 
     const heroElements = gsap.utils.toArray('[data-hero]')
     const heroTitle = heroElements[1]
-    const heroPortrait = heroElements[5]
 
     const setStage = (index) => {
       if (index === lastMessageIndex) return
@@ -164,10 +163,10 @@ export function PreLoader({ onReady, onComplete }) {
     gsap.set(heroElements, {
       autoAlpha: 0,
       y: reduceMotion ? 0 : 84,
+      scale: 1,
       filter: reduceMotion ? 'none' : 'blur(6px)',
     })
     if (heroTitle) gsap.set(heroTitle, { clipPath: 'inset(0 0 0% 0)' })
-    if (heroPortrait) gsap.set(heroPortrait, { scale: reduceMotion ? 1 : 0.98, y: reduceMotion ? 0 : 96 })
 
     const timeline = gsap.timeline({
       defaults: { ease: 'power3.out' },
