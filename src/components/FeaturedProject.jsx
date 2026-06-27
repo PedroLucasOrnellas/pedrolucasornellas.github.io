@@ -91,6 +91,21 @@ export function FeaturedProject() {
       }, 0.38)
   }, [])
 
+  const scrollToPreviewOnMobile = useCallback(() => {
+    if (!window.matchMedia('(max-width: 1100px)').matches) return
+
+    const preview = previewRef.current
+    if (!preview) return
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const previewTop = preview.getBoundingClientRect().top + window.scrollY
+
+    window.scrollTo({
+      top: Math.max(0, previewTop - 16),
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    })
+  }, [])
+
   useLayoutEffect(() => {
     if (!hasAnimatedRef.current) {
       hasAnimatedRef.current = true
@@ -105,6 +120,8 @@ export function FeaturedProject() {
   }, [activeIndex, animateIn])
 
   const selectCertificate = useCallback((nextIndex) => {
+    scrollToPreviewOnMobile()
+
     if (nextIndex === activeIndex) return
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -144,7 +161,7 @@ export function FeaturedProject() {
         duration: 0.16,
         stagger: 0.018,
       }, '<')
-  }, [activeIndex])
+  }, [activeIndex, scrollToPreviewOnMobile])
 
   return (
     <section id="project" data-section className={styles.section}>
