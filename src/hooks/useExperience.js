@@ -12,6 +12,7 @@ export function useExperience(enabled = true, animateHero = true) {
     if (!enabled) return undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobileNav = window.matchMedia('(max-width: 1100px)').matches
     const lenis = reduceMotion
       ? null
       : new Lenis({ duration: 1.1, smoothWheel: true, wheelMultiplier: 0.85 })
@@ -69,6 +70,9 @@ export function useExperience(enabled = true, animateHero = true) {
         gsap.set(navItems, { clearProps: 'transform,opacity,visibility' })
 
         const { width: navWidth, height: navHeight } = nav.getBoundingClientRect()
+        const navStart = isMobileNav ? 1.12 : 0.12
+        const navItemsStart = isMobileNav ? 1.4 : 0.4
+        const navClearStart = isMobileNav ? 3.24 : 2.24
 
         introTimeline
           .set(navItems, { autoAlpha: 0, x: 6 }, 0)
@@ -85,7 +89,7 @@ export function useExperience(enabled = true, animateHero = true) {
             padding: 6,
             duration: 2.08,
             ease: 'expo.out',
-          }, 0.12)
+          }, navStart)
           .to(navItems, {
             autoAlpha: 1,
             x: 0,
@@ -93,8 +97,8 @@ export function useExperience(enabled = true, animateHero = true) {
             stagger: 0.045,
             ease: 'power2.out',
             clearProps: 'transform,opacity,visibility',
-          }, 0.4)
-          .set(nav, { clearProps: 'width,height,padding,transform,overflow' }, 2.24)
+          }, navItemsStart)
+          .set(nav, { clearProps: 'width,height,padding,transform,overflow' }, navClearStart)
       }
 
       if (progressRail) {

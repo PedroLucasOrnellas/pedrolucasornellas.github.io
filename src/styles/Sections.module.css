@@ -1399,6 +1399,9 @@
     max-width: 326px;
     align-self: flex-start;
   }
+  .heroActions .primaryButton {
+    align-self: center;
+  }
   .textLink { justify-content: center; }
   .heroFooter { flex-direction: column; gap: 8px; }
   .sectionHeading {
