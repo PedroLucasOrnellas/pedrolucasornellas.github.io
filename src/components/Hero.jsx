@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUpRight } from 'lucide-react'
-import portrait from '../assets/portrait.svg'
+import portrait from '../assets/portrait.png'
 import { profile } from '../data/portfolio'
 import styles from '../styles/Sections.module.css'
 

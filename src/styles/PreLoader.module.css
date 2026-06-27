@@ -24,8 +24,52 @@
   mask-image: radial-gradient(circle at 50% 48%, #000, transparent 68%);
 }
 
+.dataField {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.dataPoints circle {
+  fill: var(--blue);
+  opacity: .58;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 8px rgba(47, 107, 255, .12));
+}
+
+.floatingPoints {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.floatingPoints span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 999px;
+  background: var(--blue);
+  box-shadow: 0 0 8px rgba(47, 107, 255, .14);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.dataLines line {
+  stroke: rgba(47, 107, 255, .18);
+  stroke-width: .55;
+  vector-effect: non-scaling-stroke;
+}
+
 .card {
   position: relative;
+  z-index: 3;
   display: grid;
   grid-template-rows: auto auto auto 168px;
   width: min(100%, 560px);
@@ -191,10 +235,29 @@
 }
 
 .log span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: #c5ccda;
   line-height: 16px;
   opacity: 0;
   transform: translateY(6px);
+}
+
+.log span i {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--blue);
+  opacity: 0;
+}
+
+.log span b {
+  display: inline-block;
+  font: inherit;
+  letter-spacing: inherit;
+  will-change: clip-path, opacity;
 }
 
 .log .visibleLog {

@@ -4,15 +4,30 @@
 }
 
 .shell {
+  position: relative;
+  z-index: 2;
   opacity: 1;
 }
 
-.shellHidden {
-  opacity: 0;
+.shellPreloading {
   pointer-events: none;
 }
 
+.shellPreloading nav,
+.shellPreloading aside {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.shellPreloading [data-hero],
+.shellPreloading [data-reveal] {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .main {
+  position: relative;
+  z-index: 2;
   width: min(1220px, calc(100% - 220px));
   margin-left: 164px;
   padding: 0 16px 72px;

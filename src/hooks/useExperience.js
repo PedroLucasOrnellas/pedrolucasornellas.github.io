@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function useExperience(enabled = true) {
+export function useExperience(enabled = true, animateHero = true) {
   const [activeSection, setActiveSection] = useState('overview')
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!enabled) return undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -23,6 +23,7 @@ export function useExperience(enabled = true) {
     }
     if (lenis) frame = requestAnimationFrame(raf)
     lenis?.on('scroll', ScrollTrigger.update)
+    let introTimeline
 
     const sections = [...document.querySelectorAll('[data-section]')]
     const observer = new IntersectionObserver(
@@ -37,6 +38,76 @@ export function useExperience(enabled = true) {
     sections.forEach((section) => observer.observe(section))
 
     if (!reduceMotion) {
+      const nav = document.querySelector('[data-nav]')
+      const navItems = gsap.utils.toArray('[data-nav-item]')
+      const progressRail = document.querySelector('[data-progress-rail]')
+      introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+      if (nav) {
+        gsap.set(nav, { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
+        gsap.set(navItems, { clearProps: 'transform,opacity,visibility' })
+
+        const { width: navWidth, height: navHeight } = nav.getBoundingClientRect()
+
+        introTimeline
+          .set(navItems, { autoAlpha: 0, x: 6 })
+          .set(nav, {
+            autoAlpha: 1,
+            width: 0,
+            height: navHeight,
+            padding: 0,
+            overflow: 'hidden',
+            transformOrigin: 'right center',
+          })
+          .to(nav, {
+            width: navWidth,
+            padding: 6,
+            duration: 2.08,
+            ease: 'expo.out',
+          }, 0.12)
+          .to(navItems, {
+            autoAlpha: 1,
+            x: 0,
+            duration: 1,
+            stagger: 0.045,
+            ease: 'power2.out',
+            clearProps: 'transform,opacity,visibility',
+          }, 0.4)
+          .set(nav, { clearProps: 'width,height,padding,transform,overflow' })
+      }
+
+      if (progressRail) {
+        gsap.set(progressRail, { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
+
+        const railRect = progressRail.getBoundingClientRect()
+        const railStyles = window.getComputedStyle(progressRail)
+        const railPadding = {
+          paddingTop: parseFloat(railStyles.paddingTop) || 0,
+          paddingRight: parseFloat(railStyles.paddingRight) || 0,
+          paddingBottom: parseFloat(railStyles.paddingBottom) || 0,
+          paddingLeft: parseFloat(railStyles.paddingLeft) || 0,
+        }
+
+        gsap.set(progressRail, {
+          autoAlpha: 0.5,
+          height: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+          overflow: 'hidden',
+          transformOrigin: 'top center',
+        })
+
+        introTimeline
+          .to(progressRail, {
+            autoAlpha: 1,
+            height: railRect.height,
+            ...railPadding,
+            duration: 1.6,
+            ease: 'power3.inOut',
+          }, '-=1.5')
+          .set(progressRail, { clearProps: 'height,padding,transform,overflow' })
+      }
+
       gsap.utils.toArray('[data-reveal]').forEach((element) => {
         gsap.fromTo(
           element,
@@ -62,33 +133,55 @@ export function useExperience(enabled = true) {
           },
         )
       })
-      gsap.fromTo(
-        '[data-hero]',
-        {
-          autoAlpha: 0,
-          y: 36,
-          filter: 'blur(8px)',
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 1,
-          stagger: 0.1,
-          ease: 'power3.out',
-          clearProps: 'transform,filter,opacity,visibility',
-        },
-      )
+      if (animateHero) {
+        gsap.fromTo(
+          '[data-hero]',
+          {
+            autoAlpha: 0,
+            y: 36,
+            filter: 'blur(8px)',
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 1,
+            stagger: 0.1,
+            ease: 'power3.out',
+            clearProps: 'transform,filter,opacity,visibility',
+          },
+        )
+      }
       ScrollTrigger.refresh()
+    } else {
+      gsap.set('[data-nav]', {
+        autoAlpha: 1,
+        width: 'auto',
+        height: 'auto',
+        scale: 1,
+      })
+      gsap.set('[data-nav-item]', {
+        autoAlpha: 1,
+        x: 0,
+      })
+      gsap.set('[data-progress-rail]', {
+        autoAlpha: 1,
+        x: 0,
+        height: 'auto',
+      })
     }
 
     return () => {
       observer.disconnect()
+      introTimeline?.kill()
+      gsap.set('[data-nav]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
+      gsap.set('[data-nav-item]', { clearProps: 'transform,opacity,visibility' })
+      gsap.set('[data-progress-rail]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
       cancelAnimationFrame(frame)
       lenis?.destroy()
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
     }
-  }, [])
+  }, [enabled, animateHero])
 
   return activeSection
 }

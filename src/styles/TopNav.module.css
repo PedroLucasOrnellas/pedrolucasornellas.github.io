@@ -13,16 +13,22 @@
   align-items: center;
   gap: 8px;
   padding: 6px;
+  width: max-content;
   border: 1px solid rgba(229, 231, 235, 0.8);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 10px 38px rgba(17, 24, 39, 0.055);
   backdrop-filter: blur(18px);
   pointer-events: auto;
+  transform-origin: right center;
+  opacity: 1;
+  overflow: hidden;
+  will-change: width, height, opacity, transform;
 }
 
 .links a {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 8px;
   min-height: 32px;
@@ -48,6 +54,8 @@
 
 .mobileBrand {
   display: none;
+  opacity: 1;
+  will-change: opacity, transform;
 }
 
 @media (max-width: 1180px) {

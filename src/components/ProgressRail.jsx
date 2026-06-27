@@ -10,7 +10,7 @@ export function ProgressRail({ activeSection }) {
   }, 0)
 
   return (
-    <aside className={styles.rail} aria-label="Progresso da análise">
+    <aside className={styles.rail} aria-label="Progresso da análise" data-progress-rail>
       <div className={styles.title}>
         <span>Análise</span>
         <strong>Progresso</strong>
