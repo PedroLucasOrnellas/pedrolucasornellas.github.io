@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="940" viewBox="0 0 720 940">
+  <rect width="720" height="940" fill="#ffffff"/>
+  <rect x="48" y="48" width="624" height="844" rx="18" fill="#FAFBFC" stroke="#D6DBE5"/>
+  <text x="96" y="130" fill="#2F6BFF" font-family="Inter, Arial" font-size="22" font-weight="700">MICROSOFT</text>
+  <text x="96" y="190" fill="#111827" font-family="Inter, Arial" font-size="42" font-weight="700">Extract, Transform</text>
+  <text x="96" y="244" fill="#111827" font-family="Inter, Arial" font-size="42" font-weight="700">and Load Data</text>
+  <text x="96" y="298" fill="#111827" font-family="Inter, Arial" font-size="42" font-weight="700">in Power BI</text>
+  <rect x="96" y="360" width="528" height="1" fill="#E5E7EB"/>
+  <rect x="96" y="444" width="120" height="120" rx="16" fill="#ECF3FF"/>
+  <rect x="264" y="444" width="120" height="120" rx="16" fill="#DDE8FF"/>
+  <rect x="432" y="444" width="120" height="120" rx="16" fill="#ECF3FF"/>
+  <rect x="96" y="690" width="528" height="112" rx="16" fill="#FAFBFC" stroke="#E5E7EB"/>
+  <text x="128" y="758" fill="#2F6BFF" font-family="Inter, Arial" font-size="26" font-weight="700">Power BI • ETL</text>
+</svg>

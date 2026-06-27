@@ -41,7 +41,28 @@ export function useExperience(enabled = true, animateHero = true) {
       const nav = document.querySelector('[data-nav]')
       const navItems = gsap.utils.toArray('[data-nav-item]')
       const progressRail = document.querySelector('[data-progress-rail]')
+      const heroElements = gsap.utils.toArray('[data-hero]')
       introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+      if (animateHero && heroElements.length) {
+        gsap.killTweensOf(heroElements)
+
+        introTimeline
+          .set(heroElements, {
+            autoAlpha: 0,
+            y: 84,
+            filter: 'blur(6px)',
+          }, 0)
+          .to(heroElements, {
+            autoAlpha: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 1,
+            stagger: 0.1,
+            ease: 'power3.out',
+            clearProps: 'transform,filter,opacity,visibility',
+          }, 0)
+      }
 
       if (nav) {
         gsap.set(nav, { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
@@ -50,7 +71,7 @@ export function useExperience(enabled = true, animateHero = true) {
         const { width: navWidth, height: navHeight } = nav.getBoundingClientRect()
 
         introTimeline
-          .set(navItems, { autoAlpha: 0, x: 6 })
+          .set(navItems, { autoAlpha: 0, x: 6 }, 0)
           .set(nav, {
             autoAlpha: 1,
             width: 0,
@@ -58,7 +79,7 @@ export function useExperience(enabled = true, animateHero = true) {
             padding: 0,
             overflow: 'hidden',
             transformOrigin: 'right center',
-          })
+          }, 0)
           .to(nav, {
             width: navWidth,
             padding: 6,
@@ -73,7 +94,7 @@ export function useExperience(enabled = true, animateHero = true) {
             ease: 'power2.out',
             clearProps: 'transform,opacity,visibility',
           }, 0.4)
-          .set(nav, { clearProps: 'width,height,padding,transform,overflow' })
+          .set(nav, { clearProps: 'width,height,padding,transform,overflow' }, 2.24)
       }
 
       if (progressRail) {
@@ -133,25 +154,6 @@ export function useExperience(enabled = true, animateHero = true) {
           },
         )
       })
-      if (animateHero) {
-        gsap.fromTo(
-          '[data-hero]',
-          {
-            autoAlpha: 0,
-            y: 36,
-            filter: 'blur(8px)',
-          },
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 1,
-            stagger: 0.1,
-            ease: 'power3.out',
-            clearProps: 'transform,filter,opacity,visibility',
-          },
-        )
-      }
       ScrollTrigger.refresh()
     } else {
       gsap.set('[data-nav]', {
@@ -177,6 +179,7 @@ export function useExperience(enabled = true, animateHero = true) {
       gsap.set('[data-nav]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
       gsap.set('[data-nav-item]', { clearProps: 'transform,opacity,visibility' })
       gsap.set('[data-progress-rail]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
+      gsap.killTweensOf('[data-hero]')
       cancelAnimationFrame(frame)
       lenis?.destroy()
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())

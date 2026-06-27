@@ -39,6 +39,17 @@ export function HeroDataField({ active, idle = false }) {
             yoyo: true,
             delay: index * 0.035,
           })
+
+          if (index % 11 === 0) {
+            gsap.to(point, {
+              opacity: 0.36,
+              duration: 4.8 + (index % 3) * 0.6,
+              ease: 'sine.inOut',
+              repeat: -1,
+              yoyo: true,
+              delay: index * 0.04,
+            })
+          }
         })
       }
     }, rootRef)
@@ -79,7 +90,7 @@ export function HeroDataField({ active, idle = false }) {
             data-hero-point={index}
             cx={(point.final[0] / 100) * viewport.width}
             cy={(point.final[1] / 100) * viewport.height}
-            r={point.size * 11}
+            r={point.size / 2}
           />
         ))}
       </g>

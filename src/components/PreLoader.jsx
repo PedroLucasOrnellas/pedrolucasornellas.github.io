@@ -100,7 +100,8 @@ export function PreLoader({ onReady, onComplete }) {
     }
 
     const heroElements = gsap.utils.toArray('[data-hero]')
-    const [heroKicker, heroTitle, heroRole, heroSummary, heroActions, heroPortrait, heroFooter] = heroElements
+    const heroTitle = heroElements[1]
+    const heroPortrait = heroElements[5]
 
     const setStage = (index) => {
       if (index === lastMessageIndex) return
@@ -162,11 +163,11 @@ export function PreLoader({ onReady, onComplete }) {
     gsap.set(lineRefs.current, { autoAlpha: 0, strokeDasharray: 1.4, strokeDashoffset: 1.4 })
     gsap.set(heroElements, {
       autoAlpha: 0,
-      y: reduceMotion ? 0 : 28,
-      filter: reduceMotion ? 'none' : 'blur(8px)',
+      y: reduceMotion ? 0 : 84,
+      filter: reduceMotion ? 'none' : 'blur(6px)',
     })
-    if (heroTitle) gsap.set(heroTitle, { clipPath: 'inset(0 0 100% 0)' })
-    if (heroPortrait) gsap.set(heroPortrait, { scale: reduceMotion ? 1 : 0.98, y: reduceMotion ? 0 : 32 })
+    if (heroTitle) gsap.set(heroTitle, { clipPath: 'inset(0 0 0% 0)' })
+    if (heroPortrait) gsap.set(heroPortrait, { scale: reduceMotion ? 1 : 0.98, y: reduceMotion ? 0 : 96 })
 
     const timeline = gsap.timeline({
       defaults: { ease: 'power3.out' },
@@ -286,53 +287,12 @@ export function PreLoader({ onReady, onComplete }) {
         stagger: reduceMotion ? 0 : 0.055,
         ease: 'power2.out',
       }, 'migrate+=1.05')
-      .to(heroKicker, {
-        autoAlpha: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        duration: reduceMotion ? 0.16 : 0.42,
-      }, 'migrate+=0.78')
-      .to(heroTitle, {
-        autoAlpha: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        clipPath: 'inset(0 0 0% 0)',
-        duration: reduceMotion ? 0.18 : 0.72,
-        ease: 'power3.out',
-      }, 'migrate+=0.86')
-      .to([heroRole, heroSummary], {
-        autoAlpha: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        duration: reduceMotion ? 0.16 : 0.48,
-        stagger: reduceMotion ? 0 : 0.08,
-      }, 'migrate+=1.12')
-      .to(heroActions, {
-        autoAlpha: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        duration: reduceMotion ? 0.14 : 0.42,
-      }, 'migrate+=1.3')
-      .to(heroPortrait, {
-        autoAlpha: 1,
-        y: 0,
-        scale: 1,
-        filter: 'blur(0px)',
-        duration: reduceMotion ? 0.18 : 0.7,
-        ease: 'power3.out',
-      }, 'migrate+=1.04')
-      .to(heroFooter, {
-        autoAlpha: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        duration: reduceMotion ? 0.14 : 0.36,
-      }, 'migrate+=1.52')
       .to(rootRef.current, {
         autoAlpha: 0,
         duration: reduceMotion ? 0.18 : 0.46,
         ease: 'power2.out',
       }, 'migrate+=1.68')
-      .call(dispatchReady, [], 'migrate+=1.58')
+      .call(dispatchReady, [], 'migrate+=1.6')
 
     return () => {
       timeline.kill()
@@ -368,7 +328,7 @@ export function PreLoader({ onReady, onComplete }) {
           <span
             key={`${point.final[0]}-${point.final[1]}`}
             ref={(node) => { pointRefs.current[index] = node }}
-            style={{ '--dot-size': `${point.size * 22}px` }}
+            style={{ '--dot-size': `${point.size}px` }}
           />
         ))}
       </div>

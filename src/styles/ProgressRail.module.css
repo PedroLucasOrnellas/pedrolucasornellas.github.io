@@ -51,7 +51,7 @@
 }
 
 .fill {
-  height: 0;
+  height: var(--progress, 0%);
   background: linear-gradient(var(--blue), rgba(47, 107, 255, 0.1));
   transition: height .45s ease;
 }
@@ -100,7 +100,8 @@
 
 @media (max-width: 1100px) {
   .rail {
-    inset: 70px 14px auto 14px;
+    inset: max(14px, env(safe-area-inset-top)) 14px auto 14px;
+    z-index: 38;
     width: auto;
     height: 8px;
     padding: 0;
@@ -113,8 +114,10 @@
   .track { display: block; min-height: 0; height: 100%; margin: 0; }
   .fill {
     inset: 0 auto auto 0;
-    width: 45%;
-    height: 100% !important;
+    width: var(--progress, 0%);
+    height: 100%;
     border-radius: 999px;
+    background: linear-gradient(90deg, var(--blue), rgba(47, 107, 255, 0.16));
+    transition: width .45s ease;
   }
 }

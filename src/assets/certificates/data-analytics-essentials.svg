@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="940" viewBox="0 0 720 940">
+  <rect width="720" height="940" fill="#ffffff"/>
+  <rect x="48" y="48" width="624" height="844" rx="18" fill="#FAFBFC" stroke="#D6DBE5"/>
+  <text x="96" y="130" fill="#2F6BFF" font-family="Inter, Arial" font-size="22" font-weight="700">IBM</text>
+  <text x="96" y="190" fill="#111827" font-family="Inter, Arial" font-size="44" font-weight="700">Data Analytics</text>
+  <text x="96" y="244" fill="#111827" font-family="Inter, Arial" font-size="44" font-weight="700">Essentials</text>
+  <rect x="96" y="318" width="528" height="1" fill="#E5E7EB"/>
+  <text x="96" y="382" fill="#667085" font-family="Inter, Arial" font-size="22">Certificate of completion</text>
+  <rect x="96" y="456" width="220" height="16" rx="8" fill="#DDE8FF"/>
+  <rect x="96" y="500" width="430" height="16" rx="8" fill="#E8EDF5"/>
+  <rect x="96" y="544" width="384" height="16" rx="8" fill="#E8EDF5"/>
+  <rect x="96" y="690" width="528" height="112" rx="16" fill="#ECF3FF"/>
+  <text x="128" y="758" fill="#2F6BFF" font-family="Inter, Arial" font-size="26" font-weight="700">Dataset • KPI • Insight</text>
+</svg>

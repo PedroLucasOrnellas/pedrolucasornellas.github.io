@@ -21,7 +21,7 @@ export default function App() {
   ))
   const [preloaderComplete, setPreloaderComplete] = useState(preloaderWasSkipped)
   const [showPreloader, setShowPreloader] = useState(!preloaderWasSkipped)
-  const activeSection = useExperience(preloaderComplete, preloaderWasSkipped)
+  const activeSection = useExperience(preloaderComplete, true)
   const handlePreloaderReady = useCallback(() => {
     setPreloaderComplete(true)
   }, [])

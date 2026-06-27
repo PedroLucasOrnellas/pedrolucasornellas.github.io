@@ -1,4 +1,5 @@
 .app {
+  position: relative;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -37,12 +38,12 @@
   .main {
     width: 100%;
     margin-left: 0;
-    padding: 96px 24px 64px;
+    padding: 56px 24px 112px;
   }
 }
 
 @media (max-width: 640px) {
   .main {
-    padding: 86px 16px 48px;
+    padding: 48px 16px 112px;
   }
 }

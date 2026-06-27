@@ -8,6 +8,7 @@ export function ProgressRail({ activeSection }) {
     const stageIndex = navigation.findIndex(([id]) => id === stage.target)
     return stageIndex <= sectionIndex ? index : current
   }, 0)
+  const progress = `${stages[activeIndex]?.value ?? 0}%`
 
   return (
     <aside className={styles.rail} aria-label="Progresso da análise" data-progress-rail>
@@ -19,7 +20,7 @@ export function ProgressRail({ activeSection }) {
         <div className={styles.line} />
         <div
           className={styles.fill}
-          style={{ height: `${(activeIndex / (stages.length - 1)) * 100}%` }}
+          style={{ '--progress': progress }}
         />
         {stages.map((stage, index) => (
           <a
