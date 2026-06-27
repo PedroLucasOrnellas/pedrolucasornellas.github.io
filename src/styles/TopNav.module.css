@@ -1,7 +1,7 @@
 .nav {
   position: fixed;
   top: 26px;
-  right: 38px;
+  right: max(38px, calc((100vw - 1220px) / 2 + 16px));
   z-index: 20;
   display: flex;
   justify-content: flex-end;
