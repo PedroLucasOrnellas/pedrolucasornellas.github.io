@@ -25,12 +25,14 @@ export function HeroDataField({ active, idle = false }) {
     if (!active || !idle) return undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const animations = []
+    let heroObserver
     const ctx = gsap.context(() => {
       gsap.set(pointRefs.current, { x: 0, y: 0 })
 
       if (!reduceMotion) {
         pointRefs.current.forEach((point, index) => {
-          gsap.to(point, {
+          animations.push(gsap.to(point, {
             x: index % 2 === 0 ? 3 : -2,
             y: index % 3 === 0 ? -3 : 2,
             duration: 5.5 + (index % 5) * 0.45,
@@ -38,23 +40,40 @@ export function HeroDataField({ active, idle = false }) {
             repeat: -1,
             yoyo: true,
             delay: index * 0.035,
-          })
+          }))
 
           if (index % 11 === 0) {
-            gsap.to(point, {
+            animations.push(gsap.to(point, {
               opacity: 0.36,
               duration: 4.8 + (index % 3) * 0.6,
               ease: 'sine.inOut',
               repeat: -1,
               yoyo: true,
               delay: index * 0.04,
-            })
+            }))
           }
         })
       }
     }, rootRef)
 
-    return () => ctx.revert()
+    const hero = document.querySelector('#overview')
+    if (hero && animations.length) {
+      heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          animations.forEach((animation) => {
+            if (entry.isIntersecting) animation.resume()
+            else animation.pause()
+          })
+        },
+        { threshold: 0.05 },
+      )
+      heroObserver.observe(hero)
+    }
+
+    return () => {
+      heroObserver?.disconnect()
+      ctx.revert()
+    }
   }, [active, idle])
 
   if (!active) return null

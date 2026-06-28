@@ -5,6 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+let activeLenis = null
+let activeLenisTick = null
+
 export function useExperience(enabled = true, animateHero = true) {
   const [activeSection, setActiveSection] = useState('overview')
 
@@ -15,15 +18,27 @@ export function useExperience(enabled = true, animateHero = true) {
     const isMobileNav = window.matchMedia('(max-width: 1100px)').matches
     const lenis = reduceMotion
       ? null
-      : new Lenis({ duration: 1.1, smoothWheel: true, wheelMultiplier: 0.85 })
-    let frame
-
-    const raf = (time) => {
-      lenis?.raf(time)
-      frame = requestAnimationFrame(raf)
+      : new Lenis({
+        duration: 1.1,
+        smoothWheel: true,
+        wheelMultiplier: 0.85,
+        autoRaf: false,
+      })
+    const lenisTick = (time) => {
+      lenis?.raf(time * 1000)
     }
-    if (lenis) frame = requestAnimationFrame(raf)
+
+    if (activeLenis && activeLenis !== lenis) {
+      if (activeLenisTick) gsap.ticker.remove(activeLenisTick)
+      activeLenis.destroy()
+      activeLenisTick = null
+    }
+    activeLenis = lenis
     lenis?.on('scroll', ScrollTrigger.update)
+    if (lenis) {
+      gsap.ticker.add(lenisTick)
+      activeLenisTick = lenisTick
+    }
     let introTimeline
 
     const sections = [...document.querySelectorAll('[data-section]')]
@@ -32,13 +47,16 @@ export function useExperience(enabled = true, animateHero = true) {
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) setActiveSection(visible.target.id)
+        if (visible) {
+          setActiveSection((current) => (current === visible.target.id ? current : visible.target.id))
+        }
       },
       { threshold: [0.25, 0.5, 0.75], rootMargin: '-20% 0px -45%' },
     )
     sections.forEach((section) => observer.observe(section))
 
-    if (!reduceMotion) {
+    const ctx = gsap.context(() => {
+      if (!reduceMotion) {
       const nav = document.querySelector('[data-nav]')
       const navItems = gsap.utils.toArray('[data-nav-item]')
       const progressRail = document.querySelector('[data-progress-rail]')
@@ -142,16 +160,14 @@ export function useExperience(enabled = true, animateHero = true) {
             autoAlpha: 0,
             y: 48,
             scale: 0.98,
-            filter: 'blur(8px)',
           },
           {
             autoAlpha: 1,
             y: 0,
             scale: 1,
-            filter: 'blur(0px)',
             duration: 0.85,
             ease: 'power3.out',
-            clearProps: 'transform,filter,opacity,visibility',
+            clearProps: 'transform,opacity,visibility',
             scrollTrigger: {
               trigger: element,
               start: 'top 86%',
@@ -178,17 +194,22 @@ export function useExperience(enabled = true, animateHero = true) {
         height: 'auto',
       })
     }
+    })
 
     return () => {
       observer.disconnect()
       introTimeline?.kill()
+      ctx.revert()
       gsap.set('[data-nav]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
       gsap.set('[data-nav-item]', { clearProps: 'transform,opacity,visibility' })
       gsap.set('[data-progress-rail]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
       gsap.killTweensOf('[data-hero]')
-      cancelAnimationFrame(frame)
+      if (lenis) gsap.ticker.remove(lenisTick)
       lenis?.destroy()
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      if (activeLenis === lenis) {
+        activeLenis = null
+        activeLenisTick = null
+      }
     }
   }, [enabled, animateHero])
 

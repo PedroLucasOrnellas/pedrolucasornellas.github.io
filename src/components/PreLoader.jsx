@@ -48,6 +48,7 @@ export function PreLoader({ onReady, onComplete }) {
     const previousPaddingRight = document.body.style.paddingRight
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
     const progressState = { value: 0 }
+    let lastProgress = -1
     let lastMessageIndex = -1
     let readyDispatched = false
     const initialPixels = []
@@ -133,7 +134,10 @@ export function PreLoader({ onReady, onComplete }) {
         nextProgress >= threshold ? index : current
       ), 0)
 
-      setProgress(nextProgress)
+      if (nextProgress !== lastProgress) {
+        lastProgress = nextProgress
+        setProgress(nextProgress)
+      }
       gsap.set(barRef.current, { scaleX: progressState.value / 100 })
       setStage(nextMessageIndex)
     }
