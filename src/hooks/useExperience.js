@@ -157,17 +157,17 @@ export function useExperience(enabled = true, animateHero = true) {
         gsap.fromTo(
           element,
           {
-            autoAlpha: 0,
+            opacity: 0,
             y: 48,
             scale: 0.98,
           },
           {
-            autoAlpha: 1,
+            opacity: 1,
             y: 0,
             scale: 1,
             duration: 0.85,
             ease: 'power3.out',
-            clearProps: 'transform,opacity,visibility',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
               trigger: element,
               start: 'top 86%',
