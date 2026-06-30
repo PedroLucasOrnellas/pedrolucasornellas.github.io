@@ -34,26 +34,49 @@ export function useExperience(enabled = true, animateHero = true) {
       activeLenisTick = null
     }
     activeLenis = lenis
-    lenis?.on('scroll', ScrollTrigger.update)
+    const sections = [...document.querySelectorAll('[data-section]')]
+    let activeSectionFrame = null
+    const updateActiveSection = () => {
+      activeSectionFrame = null
+      if (!sections.length) return
+
+      const marker = window.innerHeight * (isMobileNav ? 0.34 : 0.42)
+      const pageBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+      let nextSection = sections[0]
+
+      if (pageBottom) {
+        nextSection = sections[sections.length - 1]
+      } else {
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect()
+          if (rect.top <= marker) {
+            nextSection = section
+          }
+        })
+      }
+
+      setActiveSection((current) => (current === nextSection.id ? current : nextSection.id))
+    }
+    const scheduleActiveSectionUpdate = () => {
+      if (activeSectionFrame === null) {
+        activeSectionFrame = requestAnimationFrame(updateActiveSection)
+      }
+    }
+    const handleLenisScroll = () => {
+      ScrollTrigger.update()
+      scheduleActiveSectionUpdate()
+    }
+
+    lenis?.on('scroll', handleLenisScroll)
+    window.addEventListener('scroll', scheduleActiveSectionUpdate, { passive: true })
+    window.addEventListener('resize', scheduleActiveSectionUpdate)
+    scheduleActiveSectionUpdate()
+
     if (lenis) {
       gsap.ticker.add(lenisTick)
       activeLenisTick = lenisTick
     }
     let introTimeline
-
-    const sections = [...document.querySelectorAll('[data-section]')]
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) {
-          setActiveSection((current) => (current === visible.target.id ? current : visible.target.id))
-        }
-      },
-      { threshold: [0.25, 0.5, 0.75], rootMargin: '-20% 0px -45%' },
-    )
-    sections.forEach((section) => observer.observe(section))
 
     const ctx = gsap.context(() => {
       if (!reduceMotion) {
@@ -197,7 +220,10 @@ export function useExperience(enabled = true, animateHero = true) {
     })
 
     return () => {
-      observer.disconnect()
+      if (activeSectionFrame !== null) cancelAnimationFrame(activeSectionFrame)
+      window.removeEventListener('scroll', scheduleActiveSectionUpdate)
+      window.removeEventListener('resize', scheduleActiveSectionUpdate)
+      lenis?.off?.('scroll', handleLenisScroll)
       introTimeline?.kill()
       ctx.revert()
       gsap.set('[data-nav]', { clearProps: 'width,height,padding,transform,overflow,opacity,visibility' })
